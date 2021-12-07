@@ -6,21 +6,14 @@ import (
 	"log"
 
 	_ "github.com/lib/pq"
-)
-
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "song"
-	password = "song"
-	dbname   = "song"
+	"song_cloud/config"
 )
 
 // New creates a new postgres connection and tests it.
-func New() (*sql.DB, error) {
+func New(cfg config.Database) (*sql.DB, error) {
 	url := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName)
 
 	db, err := sql.Open("postgres", url)
 	if err != nil {

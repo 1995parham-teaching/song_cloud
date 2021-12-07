@@ -8,6 +8,7 @@ import (
 
 	"song_cloud/config"
 	"song_cloud/db"
+	"song_cloud/handler"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -68,7 +69,7 @@ func main() {
 	}
 	follow.Register(app.Group("/api"))
 
-	if err = app.Start(":1373"); !errors.Is(err, http.ErrServerClosed) {
+	if err = app.Start(":8080"); !errors.Is(err, http.ErrServerClosed) {
 		log.Fatal("echo initiation failed", err)
 	}
 }

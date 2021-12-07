@@ -28,8 +28,8 @@ func (s *SignUp) Create(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	query := fmt.Sprintf("INSERT INTO users (username, password, first_name, last_name, email, phone, national_number) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-		rq.Username, rq.Password, rq.FirstName, rq.LastName, rq.Email, rq.Phone, rq.NationalNumber)
+	query := fmt.Sprintf("INSERT INTO users (username, password, first_name, last_name, email) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+		rq.Username, rq.Password, rq.FirstName, rq.LastName, rq.Email)
 	if _, err = s.Store.Exec(query); err != nil {
 		tx.Rollback()
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())

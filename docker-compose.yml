@@ -1,4 +1,4 @@
-version: '3'
+---
 services:
   database:
     image: "postgres" # use latest official postgres version

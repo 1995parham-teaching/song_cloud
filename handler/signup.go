@@ -6,9 +6,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/labstack/echo/v4"
-	"koochooloo_cinema/response"
 	"song_cloud/request"
+	"song_cloud/response"
+
+	"github.com/labstack/echo/v4"
 )
 
 type SignUp struct {
@@ -60,7 +61,7 @@ func (s *SignUp) Retrieve(c echo.Context) error {
 	var user response.User
 	query := fmt.Sprintf("SELECT * FROM users WHERE username = '%s' AND password = '%s'", rq.Username, rq.Password)
 	err := s.Store.QueryRow(query).Scan(&user.Username, &user.Password, &user.FirstName, &user.LastName,
-		&user.Email, &user.Phone, &user.NationalNumber, &user.SpecialTill, &user.Score)
+		&user.Email, &user.SpecialTill, &user.Score)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
@@ -107,7 +108,7 @@ func (s *SignUp) Update(c echo.Context) error {
 		return err
 	}
 
-	// todo
+	// TODO
 	//if result.RowsAffected == 0 {
 	//	return ctx.JSON(http.StatusNotFound, DriverSignupError{Message: "referrer not found"})
 	//}

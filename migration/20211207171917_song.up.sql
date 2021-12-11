@@ -10,45 +10,41 @@ CREATE TABLE IF NOT EXISTS song
     score           numeric default 0
 );
 
-CREATE OR REPLACE free()
+CREATE OR REPLACE FUNCTION free(id integer) RETURNS boolean AS
 $$
     BEGIN
-      IF (select count(1) from song where NEW.id = id) THEN
+      IF exists(select from song where song.id = id and price = 0) THEN
         RETURN TRUE
       END IF;
       RETURN FALSE;
     END;
 $$
-LANGUAGE 'plpgsql'
+LANGUAGE plpgsql;
 
-CREATE OR REPLACE increase_view()
+CREATE OR REPLACE PROCEDURE increase_view(id integer) AS
 $$
   BEGIN
-    UPDATE song SET view = view + 1 WHERE id = NEW.id
-    RETURN NULL;
+    UPDATE song SET view = view + 1 WHERE song.id = id;
   END;
 $$
-LANGUAGE 'plpgsql'
+LANGUAGE plpgsql;
 
-
-CREATE OR REPLACE FUNCTION play() RETURNS trigger as
+CREATE OR REPLACE PROCEDURE play(id integer, username varchar(255)) AS
 $$
   BEGIN
-    IF free() THEN
-      increase_view()
-      RETURN TRUE;
+    DECLARE price integer;
+    SELECT price FROM song WHERE song.id = id INTO price;
+    IF select free(id) THEN
+      CALL increase_view(id);
     END IF;
-    IF premium_user_validation() THEN
-      increase_view()
-      RETURN TRUE;
+    IF select premium_user_validation(username) THEN
+      CALL increase_view(id);
     END IF;
-    IF pay() THEN
-      increase_view()
-      RETURN TRUE;
+    IF SELECT pay(username, price) THEN
+      CALL increase_view(id);
     END IF;
-    RETURN NULL;
   END;
 $$
-LANGUAGE 'plpgsql';
+LANGUAGE plpgsql;
 
-CREATE TRIGGER watch_create BEFORE INSERT on watch FOR EACH ROW EXECUTE PROCEDURE pay_for_watch();
+-- CREATE TRIGGER watch_create BEFORE INSERT on watch FOR EACH ROW EXECUTE PROCEDURE pay_for_watch();

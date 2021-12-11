@@ -11,13 +11,13 @@ CREATE TABLE IF NOT EXISTS users
 
 CREATE UNIQUE INDEX IF NOT EXISTS uidx_email ON users (email);
 
-CREATE OR REPLACE FUNCTION premium_user_validation() RETURNS trigger as
+CREATE OR REPLACE FUNCTION premium_user_validation(username varchar(255)) RETURNS boolean as
 $$
 BEGIN
-    IF (select count(1) from users where username = NEW.username and premium_till > now()) = 1 THEN
-        RETURN NEW;
+    IF EXISTS(SELECT FROM users WHERE users.username = username AND users.premium_till > now()) THEN
+      RETURN true;
     END IF;
-    RETURN NULL;
+    RETURN false;
 END;
 $$
-    LANGUAGE 'plpgsql';
+LANGUAGE plpgsql;

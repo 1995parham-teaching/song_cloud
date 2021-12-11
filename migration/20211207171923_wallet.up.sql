@@ -6,14 +6,14 @@ CREATE TABLE IF NOT EXISTS wallet
     explanation varchar(255)
 );
 
-CREATE OR REPLACE pay(price float) RETURNS BOOLEAN as
+CREATE OR REPLACE FUNCTION pay(username varchar(255), price int) RETURNS BOOLEAN as
 $$
 BEGIN
-    IF (SELECT COUNT(1) FROM wallet WHERE username=NEW.username and credit >= NEW.credit)
-      UPDATE wallet SET credit = credit - price WHERE username = NEW.username;
+    IF EXISTS(SELECT FROM wallet WHERE wallet.username = username and wallet.credit >= price)
+      UPDATE wallet SET credit = credit - price WHERE wallet.username = username;
       RETURN TRUE;
     END IF;
     RETURN FALSE;
 END;
 $$
-LANGUAGE 'plpgsql'
+LANGUAGE plpgsql

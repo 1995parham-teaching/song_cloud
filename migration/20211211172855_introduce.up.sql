@@ -14,6 +14,6 @@ $$
     RETURN NEW;
   END;
 $$
-LANGUAGE 'plpgsql';
+LANGUAGE plpgsql;
 
-CREATE TRIGGER introducer_create BEFORE INSERT on introducer FOR EACH ROW EXECUTE PROCEDURE increase_score();
+CREATE TRIGGER introducer_create BEFORE INSERT on introduce FOR EACH ROW EXECUTE PROCEDURE increase_score();

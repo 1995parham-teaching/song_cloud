@@ -14,7 +14,7 @@ CREATE OR REPLACE FUNCTION free(id integer) RETURNS boolean AS
 $$
     BEGIN
       IF exists(select from song where song.id = id and price = 0) THEN
-        RETURN TRUE
+        RETURN TRUE;
       END IF;
       RETURN FALSE;
     END;
@@ -31,16 +31,17 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE play(id integer, username varchar(255)) AS
 $$
+  DECLARE
+    song_price integer;
   BEGIN
-    DECLARE price integer;
-    SELECT price FROM song WHERE song.id = id INTO price;
-    IF select free(id) THEN
+    SELECT price INTO song_price FROM song WHERE song.id = id;
+    IF free(id) THEN
       CALL increase_view(id);
     END IF;
-    IF select premium_user_validation(username) THEN
+    IF premium_user_validation(username) THEN
       CALL increase_view(id);
     END IF;
-    IF SELECT pay(username, price) THEN
+    IF pay(username, song_price) THEN
       CALL increase_view(id);
     END IF;
   END;

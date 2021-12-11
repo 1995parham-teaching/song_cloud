@@ -2,7 +2,9 @@
 services:
   database:
     image: "postgres" # use latest official postgres version
-    env_file:
-      - database.env # configure postgres
+    environment:
+      POSTGRES_USER: song
+      POSTGRES_PASSWORD: song
+      POSTGRES_DB: song
     ports:
       - 5432:5432

@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS users
 
 CREATE UNIQUE INDEX IF NOT EXISTS uidx_email ON users (email);
 
-CREATE OR REPLACE FUNCTION premium_user_validation(username varchar(255)) RETURNS boolean as
+CREATE OR REPLACE FUNCTION premium_user_validation(username_in varchar(255)) RETURNS boolean as
 $$
 BEGIN
-    IF EXISTS(SELECT FROM users WHERE users.username = username AND users.premium_till > now()) THEN
+    IF EXISTS(SELECT FROM users WHERE users.username = username_in AND users.premium_till > now()) THEN
       RETURN true;
     END IF;
     RETURN false;

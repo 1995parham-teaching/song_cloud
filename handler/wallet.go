@@ -2,12 +2,11 @@ package handler
 
 import (
 	"database/sql"
-	"fmt"
+	"log"
 	"net/http"
 
-
-	"github.com/labstack/echo/v4"
 	"github.com/elahe-dastan/song_cloud/request"
+	"github.com/labstack/echo/v4"
 )
 
 type Wallet struct {
@@ -15,31 +14,47 @@ type Wallet struct {
 }
 
 func (w *Wallet) Update(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	var body request.Wallet
-	err := c.Bind(&body)
-	if err != nil {
-		return err
+	if err := c.Bind(&body); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	query := fmt.Sprintf("UPDATE wallet SET credit = credit + %d WHERE username = '%s'", body.Credit, body.Username)
-	_, err = w.Store.Query(query)
+	stmt, err := w.Store.PrepareContext(
+		ctx,
+		"UPDATE wallet SET credit = credit + $1 WHERE username = $2",
+	)
 	if err != nil {
-		return err
+		log.Printf("stmt preparation failed %s", err)
+
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+	defer stmt.Close()
+
+	result, err := stmt.ExecContext(ctx, body.Credit, body.Username)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	// todo
-	//if result.RowsAffected == 0 {
-	//	return ctx.JSON(http.StatusNotFound, DriverSignupError{Message: "referrer not found"})
-	//}
+	n, err := result.RowsAffected()
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	if n == 0 {
+		return echo.ErrNotFound
+	}
 
 	return c.NoContent(http.StatusOK)
 }
 
 func (w *Wallet) Transfer(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	var body request.Transfer
-	err := c.Bind(&body)
-	if err != nil {
-		return err
+	if err := c.Bind(&body); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	tx, err := w.Store.Begin()
@@ -47,29 +62,71 @@ func (w *Wallet) Transfer(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	query := fmt.Sprintf("UPDATE wallet SET credit = credit - %d WHERE username = '%s'", body.Credit, body.Username)
-	_, err = w.Store.Query(query)
-	if err != nil {
-		_ = tx.Rollback()
-		return err
+	{
+		stmt, err := w.Store.PrepareContext(
+			ctx,
+			"UPDATE wallet SET credit = credit - $1 WHERE username = $2",
+		)
+		if err != nil {
+			log.Printf("stmt preparation failed %s", err)
+			_ = tx.Rollback()
+
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+		defer stmt.Close()
+
+		result, err := stmt.ExecContext(ctx, body.Credit, body.Username)
+		if err != nil {
+			_ = tx.Rollback()
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+
+		n, err := result.RowsAffected()
+		if err != nil {
+			_ = tx.Rollback()
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+
+		if n == 0 {
+			_ = tx.Rollback()
+			return echo.ErrNotFound
+		}
 	}
 
-	query = fmt.Sprintf("UPDATE wallet SET credit = credit + %d WHERE username = '%s'", body.Credit, body.EndUser)
-	_, err = w.Store.Query(query)
-	if err != nil {
-		_ = tx.Rollback()
-		return err
+	{
+		stmt, err := w.Store.PrepareContext(
+			ctx,
+			"UPDATE wallet SET credit = credit + $1 WHERE username = $2",
+		)
+		if err != nil {
+			log.Printf("stmt preparation failed %s", err)
+			_ = tx.Rollback()
+
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+		defer stmt.Close()
+
+		result, err := stmt.ExecContext(ctx, body.Credit, body.EndUser)
+		if err != nil {
+			_ = tx.Rollback()
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+
+		n, err := result.RowsAffected()
+		if err != nil {
+			_ = tx.Rollback()
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+
+		if n == 0 {
+			_ = tx.Rollback()
+			return echo.ErrNotFound
+		}
 	}
 
-	err = tx.Commit()
-	if err != nil {
-		return err
+	if err := tx.Commit(); err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
-
-	// todo
-	//if result.RowsAffected == 0 {
-	//	return ctx.JSON(http.StatusNotFound, DriverSignupError{Message: "referrer not found"})
-	//}
 
 	return c.NoContent(http.StatusOK)
 }

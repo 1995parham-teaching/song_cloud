@@ -2,13 +2,14 @@ package handler
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
 	"github.com/elahe-dastan/song_cloud/request"
 	"github.com/elahe-dastan/song_cloud/response"
-
 	"github.com/labstack/echo/v4"
 )
 
@@ -16,9 +17,9 @@ type SignUp struct {
 	Store *sql.DB
 }
 
-// todo password constraint doesn't work
-// todo unique constraint on email doesn't work
 func (s *SignUp) Create(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	var rq request.Signup
 	if err := c.Bind(&rq); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -29,18 +30,43 @@ func (s *SignUp) Create(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	query := fmt.Sprintf("INSERT INTO users (username, password, first_name, last_name, email) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-		rq.Username, rq.Password, rq.FirstName, rq.LastName, rq.Email)
-	if _, err = s.Store.Exec(query); err != nil {
-		tx.Rollback()
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	{
+		stmt, err := s.Store.PrepareContext(
+			ctx,
+			"INSERT INTO users (username, password, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5)",
+		)
+		if err != nil {
+			log.Printf("stmt preparation failed %s", err)
+			_ = tx.Rollback()
+
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+		defer stmt.Close()
+
+		if _, err := stmt.ExecContext(ctx, rq.Username, rq.Password, rq.FirstName, rq.LastName, rq.Email); err != nil {
+			log.Printf("stmt exec failed %s", err)
+			_ = tx.Rollback()
+
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
 	}
 
-	query = fmt.Sprintf("INSERT INTO wallet (username) VALUES ('%s')", rq.Username)
-	_, err = tx.Exec(query)
-	if err != nil {
-		tx.Rollback()
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	{
+		stmt, err := s.Store.PrepareContext(ctx, "INSERT INTO wallet (username) VALUES ($1)")
+		if err != nil {
+			log.Printf("stmt preparation failed %s", err)
+			_ = tx.Rollback()
+
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+		defer stmt.Close()
+
+		if _, err := stmt.ExecContext(ctx, rq.Username); err != nil {
+			log.Printf("stmt exec failed %s", err)
+			_ = tx.Rollback()
+
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
 	}
 
 	if err := tx.Commit(); err != nil {
@@ -53,17 +79,33 @@ func (s *SignUp) Create(c echo.Context) error {
 // Retrieve retrieves URL for given short URL and redirect to it.
 // nolint: wrapcheck
 func (s *SignUp) Retrieve(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	var rq request.Login
 	if err := c.Bind(&rq); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	var user response.User
-	query := fmt.Sprintf("SELECT * FROM users WHERE username = '%s' AND password = '%s'", rq.Username, rq.Password)
-	err := s.Store.QueryRow(query).Scan(&user.Username, &user.Password, &user.FirstName, &user.LastName,
-		&user.Email, &user.SpecialTill, &user.Score)
+
+	stmt, err := s.Store.PrepareContext(ctx, "SELECT * FROM users WHERE username = $1 AND password = $2")
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		log.Printf("stmt preparation failed %s", err)
+
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+	defer stmt.Close()
+
+	if err := stmt.QueryRowContext(ctx, rq.Username, rq.Password).Scan(
+		&user.Username, &user.Password, &user.FirstName, &user.LastName,
+		&user.Email, &user.SpecialTill, &user.Score); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return echo.ErrUnauthorized
+		}
+
+		log.Printf("stmt exec failed %s", err)
+
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, user)
@@ -103,15 +145,9 @@ func (s *SignUp) Update(c echo.Context) error {
 
 	query += fmt.Sprintf(" WHERE username = '%s'", rq.Username)
 
-	_, err := s.Store.Exec(query)
-	if err != nil {
-		return err
+	if _, err := s.Store.Exec(query); err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
-
-	// TODO
-	//if result.RowsAffected == 0 {
-	//	return ctx.JSON(http.StatusNotFound, DriverSignupError{Message: "referrer not found"})
-	//}
 
 	return c.NoContent(http.StatusOK)
 }

@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"song_cloud/request"
-	"song_cloud/response"
+	"github.com/elahe-dastan/song_cloud/request"
+	"github.com/elahe-dastan/song_cloud/response"
 
 	"github.com/labstack/echo/v4"
 )

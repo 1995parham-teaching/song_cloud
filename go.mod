@@ -1,4 +1,4 @@
-module song_cloud
+module github.com/elahe-dastan/song_cloud
 
 go 1.17
 

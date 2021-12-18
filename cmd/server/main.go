@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"song_cloud/config"
-	"song_cloud/db"
-	"song_cloud/handler"
+	"github.com/elahe-dastan/song_cloud/config"
+	"github.com/elahe-dastan/song_cloud/db"
+	"github.com/elahe-dastan/song_cloud/handler"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

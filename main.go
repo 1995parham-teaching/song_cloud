@@ -1,6 +1,6 @@
 package main
 
-import "song_cloud/cmd"
+import "github.com/elahe-dastan/song_cloud/cmd"
 
 func main() {
 	cmd.Execute()

@@ -1,8 +1,8 @@
 package migrate
 
 import (
-	"song_cloud/config"
-	"song_cloud/db"
+	"github.com/elahe-dastan/song_cloud/config"
+	"github.com/elahe-dastan/song_cloud/db"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"

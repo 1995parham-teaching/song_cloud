@@ -45,4 +45,22 @@ $$
 $$
 LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION add_song(
+    file_in            varchar(255),
+    name_in            varchar(255),
+    production_year_in int,
+    explanation_in     varchar(255) DEFAULT '',
+    price_in           int DEFAULT 0,
+    score_in           numeric DEFAULT 0) RETURNS integer as
+$$
+  BEGIN
+    INSERT INTO public.song(
+      file, name, production_year, explanation, price, score)
+    VALUES (file_in, name_in, production_year_in, explanation_in, price_in, score_in);
+    RETURN currval('song_id_seq');
+  END;
+$$
+LANGUAGE plpgsql;
+
+
 -- CREATE TRIGGER watch_create BEFORE INSERT on watch FOR EACH ROW EXECUTE PROCEDURE pay_for_watch();

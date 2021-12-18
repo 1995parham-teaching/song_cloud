@@ -24,3 +24,17 @@ $$
   END;
 $$
 LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE PROCEDURE assign_category_to_song(
+    song_id_in  int,
+    category_id_in int) as
+$$
+  BEGIN
+    IF (NOT EXISTS (SELECT FROM public.song_category WHERE song_id = song_id_in and category_id = category_id_in)) THEN
+      INSERT INTO public.song_category(song_id, category_id)
+      VALUES (song_id_in, category_id_in);
+    END IF;
+  END;
+$$
+LANGUAGE plpgsql;

@@ -13,6 +13,5 @@ curl -d '{ "username": "elahe", "first_name": "Elahe", "last_name": "Dastan", "e
 User creation completed:
 
 ```sh
-curl -d '{ "username": "elahe", "first_name": "Elahe", "last_name": "Dastan", "email": "elahe.dstn@gmail.com", "password": "123456abc" }' -H 'Content-Type: application/json' 127.0.0.1:8080
-/api/signup
+curl -d '{ "username": "elahe", "first_name": "Elahe", "last_name": "Dastan", "email": "elahe.dstn@gmail.com", "password": "123456abc" }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/signup
 ```

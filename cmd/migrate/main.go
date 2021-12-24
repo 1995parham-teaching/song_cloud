@@ -1,6 +1,8 @@
 package migrate
 
 import (
+	"errors"
+
 	"github.com/elahe-dastan/song_cloud/config"
 	"github.com/elahe-dastan/song_cloud/db"
 
@@ -19,13 +21,24 @@ func main(cfg config.Config) {
 	}
 
 	driver, err := postgres.WithInstance(database, &postgres.Config{})
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
 	m, err := migrate.NewWithDatabaseInstance(
 		"file://./migration",
 		"postgres", driver)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-	if err = m.Up(); err != nil {
+
+	if err := m.Up(); err != nil {
+		if errors.Is(err, migrate.ErrNoChange) {
+			log.Print("database is up to date")
+
+			return
+		}
+
 		log.Fatalf(err.Error())
 	}
 }

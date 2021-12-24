@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS "like"
 (
-    id              SERIAL primary key,
+    id          SERIAL primary key,
     username    varchar(255),
     song_id     INT,
-    CONSTRAINT FK_song FOREIGN KEY (song_id) REFERENCES song(id),
-    CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users(username)
+    CONSTRAINT  FK_song FOREIGN KEY (song_id) REFERENCES song(id),
+    CONSTRAINT  FK_username FOREIGN KEY (username) REFERENCES users(username)
 );
 
 CREATE OR REPLACE PROCEDURE like_song(username_in varchar(255), id_in integer) AS

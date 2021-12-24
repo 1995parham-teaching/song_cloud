@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS purchase
     CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users(username)
 );
 
-
 CREATE OR REPLACE FUNCTION isPaid(username_in varchar(255), song_id_in int) RETURNS BOOLEAN as
 $$
   BEGIN
@@ -22,11 +21,14 @@ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION purchase_log() RETURNS trigger as
 $$
-  BEGIN
-    INSERT INTO "log"(status_code, log_message, "time")
-        VALUES (0, CONCAT(new.username, ' purchased this song: ', new.song_id), now());
-    RETURN NEW;
-  END;
+DECLARE
+    song_price integer;
+BEGIN
+  SELECT price INTO song_price FROM song WHERE song.id = new.song_id;
+  INSERT INTO "log"(status_code, log_message, "time")
+      VALUES (0, CONCAT(new.username, ' purchased this song ', new.song_id, ' by paying ', song_price), now());
+  RETURN NEW;
+END;
 $$
 LANGUAGE plpgsql;
 

@@ -4,10 +4,8 @@ CREATE TABLE IF NOT EXISTS "like"
     username    varchar(255),
     song_id     INT,
     CONSTRAINT FK_song FOREIGN KEY (song_id) REFERENCES song(id),
-    CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES "users"(username)
+    CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users(username)
 );
-
-
 
 CREATE OR REPLACE PROCEDURE like_song(username_in varchar(255), id_in integer) AS
 $$
@@ -17,12 +15,10 @@ $$
 $$
 LANGUAGE plpgsql;
 
-
-
 CREATE OR REPLACE FUNCTION like_log() RETURNS trigger as
 $$
   BEGIN
-    INSERT INTO "log"(status_code, log_message, "time") 
+    INSERT INTO "log"(status_code, log_message, "time")
         VALUES (0, CONCAT(new.username, ' liked this song: ', new.song_id), now());
     RETURN NEW;
   END;

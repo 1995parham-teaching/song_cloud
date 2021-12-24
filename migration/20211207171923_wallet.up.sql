@@ -6,24 +6,31 @@ CREATE TABLE IF NOT EXISTS wallet
     explanation varchar(255)
 );
 
-CREATE OR REPLACE FUNCTION pay(username_in varchar(255), song_id_in int) RETURNS BOOLEAN as
+CREATE OR REPLACE PROCEDURE pay(username_in varchar(255), song_id_in int) as
 $$
 DECLARE
     song_price integer;
 BEGIN
     SELECT price INTO song_price FROM song WHERE song.id = song_id_in;
     IF song_price = 0 THEN
-      RETURN FALSE;
+      RETURN;
     END IF;
-    IF (NOT isPaid(username_in, song_id_in)) AND 
-      (NOT premium_user_validation(username_in)) AND
-      (NOT free(song_id_in)) AND
-      EXISTS (SELECT FROM wallet WHERE wallet.username = username_in and wallet.credit >= song_price) THEN
-        UPDATE wallet SET credit = credit - song_price WHERE wallet.username = username_in;
-        INSERT INTO purchase(username, song_id, paid) VALUES (username_in, song_id_in, song_price);
-        RETURN TRUE;
+    IF (premium_user_validation(username_in)) THEN
+      RETURN;
     END IF;
-    RETURN FALSE;
+    IF (isPaid(username_in, song_id_in)) THEN
+      RETURN;
+    END IF;
+    IF (free(song_id_in)) THEN
+      RETURN;
+    END IF;
+    IF EXISTS (SELECT FROM wallet WHERE wallet.username = username_in and wallet.credit >= song_price) THEN
+      UPDATE wallet SET credit = credit - song_price WHERE wallet.username = username_in;
+      INSERT INTO purchase(username, song_id) VALUES (username_in, song_id_in);
+      COMMIT;
+    ELSE
+      RAISE EXCEPTION 'not enough credit (%) for user % to buy %', song_price, username_in, song_id_in;
+    END IF;
 END;
 $$
 LANGUAGE plpgsql;

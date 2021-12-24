@@ -152,7 +152,6 @@ func (s *SignUp) Update(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-// Register registers the routes of URL handler on given group.
 func (s *SignUp) Register(g *echo.Group) {
 	g.POST("/login", s.Retrieve)
 	g.POST("/signup", s.Create)

@@ -131,7 +131,6 @@ func (w *Wallet) Transfer(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-// Register registers the routes of URL handler on given group.
 func (w *Wallet) Register(g *echo.Group) {
 	g.POST("/wallet", w.Update)
 	g.POST("/transfer", w.Transfer)

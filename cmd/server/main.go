@@ -32,6 +32,16 @@ func main(cfg config.Config) {
 	}
 	wallet.Register(app.Group("/api"))
 
+	premium := handler.Premium{
+		Store: database,
+	}
+	premium.Register(app.Group("/api"))
+
+	song := handler.Song{
+		Store: database,
+	}
+	song.Register(app.Group("/api"))
+
 	if err = app.Start(":8080"); !errors.Is(err, http.ErrServerClosed) {
 		log.Fatal("echo initiation failed", err)
 	}

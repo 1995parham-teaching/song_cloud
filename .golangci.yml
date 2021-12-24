@@ -4,6 +4,8 @@ linters:
   disable:
     # it should improve to support more known patterns
     - varnamelen
+    # it isn't our way
+    - tagliatelle
     # deprecated linters
     - maligned
     - scopelint

@@ -39,3 +39,15 @@ Play a song:
 ```sh
 curl -d '{ "id": 2, "username": "elahe" }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/play
 ```
+
+Create a category:
+
+```sh
+curl 127.0.0.1:8080/api/category/pop
+```
+
+Assig a song to a category:
+
+```sh
+curl -d '{ "id": 2, "cateogry": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/category
+```

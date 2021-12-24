@@ -69,6 +69,24 @@ func (s *SignUp) Create(c echo.Context) error {
 		}
 	}
 
+	if rq.Introducer != nil {
+		stmt, err := s.Store.PrepareContext(ctx, "INSERT INTO introduce (username, introducer) VALUES ($1, $2)")
+		if err != nil {
+			log.Printf("stmt preparation failed %s", err)
+			_ = tx.Rollback()
+
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+		defer stmt.Close()
+
+		if _, err := stmt.ExecContext(ctx, rq.Username, *rq.Introducer); err != nil {
+			log.Printf("stmt exec failed %s", err)
+			_ = tx.Rollback()
+
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+	}
+
 	if err := tx.Commit(); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}

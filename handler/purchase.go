@@ -23,7 +23,7 @@ func (p Purchase) Buy(c echo.Context) error {
 
 	stmt, err := p.Store.PrepareContext(
 		ctx,
-		"INSERT INTO purchase (username,song_id) VALUES ($1, $2)",
+		"CALL pay ($1, $2)",
 	)
 	if err != nil {
 		log.Printf("stmt preparation failed %s", err)

@@ -78,17 +78,20 @@ func (w *Wallet) Transfer(c echo.Context) error {
 		result, err := stmt.ExecContext(ctx, body.Credit, body.Username)
 		if err != nil {
 			_ = tx.Rollback()
+
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
 
 		n, err := result.RowsAffected()
 		if err != nil {
 			_ = tx.Rollback()
+
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
 
 		if n == 0 {
 			_ = tx.Rollback()
+
 			return echo.ErrNotFound
 		}
 	}
@@ -109,17 +112,20 @@ func (w *Wallet) Transfer(c echo.Context) error {
 		result, err := stmt.ExecContext(ctx, body.Credit, body.EndUser)
 		if err != nil {
 			_ = tx.Rollback()
+
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
 
 		n, err := result.RowsAffected()
 		if err != nil {
 			_ = tx.Rollback()
+
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
 
 		if n == 0 {
 			_ = tx.Rollback()
+
 			return echo.ErrNotFound
 		}
 	}

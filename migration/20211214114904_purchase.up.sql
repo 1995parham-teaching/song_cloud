@@ -33,3 +33,6 @@ $$
 LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER tr_purchase_log AFTER INSERT on "purchase" FOR EACH ROW EXECUTE PROCEDURE purchase_log();
+
+create role bank login password 'bank';
+grant select on purchase to bank;

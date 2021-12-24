@@ -65,5 +65,7 @@ $$
 $$
 LANGUAGE plpgsql;
 
-
--- CREATE TRIGGER watch_create BEFORE INSERT on watch FOR EACH ROW EXECUTE PROCEDURE pay_for_watch();
+create role content login password 'content';
+grant select on song to crm;
+grant update on song to crm;
+grant delete on song to crm;

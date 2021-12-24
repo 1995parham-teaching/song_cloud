@@ -46,3 +46,7 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
+create role finance login password 'finance';
+grant select on wallet to finance;
+grant update on wallet to finance;

@@ -15,3 +15,21 @@ User creation completed:
 ```sh
 curl -d '{ "username": "elahe", "first_name": "Elahe", "last_name": "Dastan", "email": "elahe.dstn@gmail.com", "password": "123456abc" }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/signup
 ```
+
+Extend premium period:
+
+```sh
+curl -d '{ "username": "elahe", "duration": 100000000000 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/extend
+```
+
+Create new free song:
+
+```sh
+curl -d '{ "new": "elahe", "file": "elahe.mp3", "production_year": 2021, "explanation": "new awesome song" }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/song
+```
+
+Create new paid song:
+
+```sh
+curl -d '{ "new": "elahe-p", "file": "elahe.mp3", "production_year": 2021, "explanation": "new awesome song", "price": 100 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/song
+```

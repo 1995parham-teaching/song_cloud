@@ -57,3 +57,9 @@ Buy a song:
 ```sh
 curl -d '{ "username": "elahe", "song": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/buy
 ```
+
+like a song:
+
+```sh
+curl -d '{ "username": "elahe", "id": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/like
+```

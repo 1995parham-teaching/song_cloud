@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS users
     last_name    varchar(255),
     email        varchar(255),
     premium_till date,
-    score        int default 0
 );
 
 CREATE UNIQUE INDEX IF NOT EXISTS uidx_email ON users (email);

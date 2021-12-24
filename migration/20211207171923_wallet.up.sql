@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS wallet
 (
     id SERIAL primary key ,
     username   varchar(255),
-    credit     int default 0,
+    credit     int default 0
 );
 
 CREATE OR REPLACE PROCEDURE pay(username_in varchar(255), song_id_in int) as

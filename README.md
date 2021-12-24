@@ -51,3 +51,9 @@ Assig a song to a category:
 ```sh
 curl -d '{ "id": 2, "category": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/category
 ```
+
+Buy a song:
+
+```sh
+curl -d '{ "username": "elahe", "song": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/buy
+```

@@ -42,6 +42,11 @@ func main(cfg config.Config) {
 	}
 	song.Register(app.Group("/api"))
 
+	purchase := handler.Purchase{
+		Store: database,
+	}
+	purchase.Register(app.Group("/api"))
+
 	if err = app.Start(":8080"); !errors.Is(err, http.ErrServerClosed) {
 		log.Fatal("echo initiation failed", err)
 	}

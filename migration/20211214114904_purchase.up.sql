@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS purchase
     id SERIAL primary key,
     username   varchar(255),
     song_id     int,
+    purchased_date timestamp,
+    purchased_price int,
     CONSTRAINT FK_song FOREIGN KEY (song_id) REFERENCES song(id),
     CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users(username)
 );

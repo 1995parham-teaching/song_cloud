@@ -25,7 +25,7 @@ BEGIN
     END IF;
     IF EXISTS (SELECT FROM wallet WHERE wallet.username = username_in and wallet.credit >= song_price) THEN
       UPDATE wallet SET credit = credit - song_price WHERE wallet.username = username_in;
-      INSERT INTO purchase(username, song_id) VALUES (username_in, song_id_in);
+      INSERT INTO purchase(username, song_id, purchased_price, purchased_date) VALUES (username_in, song_id_in, song_price, now());
       COMMIT;
     ELSE
       RAISE EXCEPTION 'not enough credit (%) for user % to buy %', song_price, username_in, song_id_in;

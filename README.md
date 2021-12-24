@@ -49,5 +49,5 @@ curl 127.0.0.1:8080/api/category/pop
 Assig a song to a category:
 
 ```sh
-curl -d '{ "id": 2, "cateogry": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/category
+curl -d '{ "id": 2, "category": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/category
 ```

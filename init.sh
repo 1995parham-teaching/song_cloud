@@ -11,5 +11,14 @@ curl -d '{ "new": "elahe-p", "file": "elahe.mp3", "production_year": 2021, "expl
 echo "creating categories..."
 curl 127.0.0.1:8080/api/category/pop
 
-echo "buy some songs..."
-curl -d '{ "username": "elahe", "song": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/buy
+echo "increase user credit"
+curl -d '{ "username": "elahe", "credit": 10 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/wallet
+
+echo "buy some songs without credit"
+curl -d '{ "username": "elahe", "song": 2 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/buy
+
+echo "increase user credit"
+curl -d '{ "username": "elahe", "credit": 100 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/wallet
+
+echo "buy some songs with credit"
+curl -d '{ "username": "elahe", "song": 2 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/buy

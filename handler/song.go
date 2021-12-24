@@ -122,9 +122,38 @@ func (s Song) Assign(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
+func (s Song) Like(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	var rq request.Like
+	if err := c.Bind(&rq); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	stmt, err := s.Store.PrepareContext(
+		ctx,
+		"CALL like_song ($1, $2)",
+	)
+	if err != nil {
+		log.Printf("stmt preparation failed %s", err)
+
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+	defer stmt.Close()
+
+	if _, err := stmt.ExecContext(ctx, rq.Username, rq.ID); err != nil {
+		log.Printf("stmt exec failed %s", err)
+
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.NoContent(http.StatusNoContent)
+}
+
 func (s Song) Register(g *echo.Group) {
 	g.POST("/song", s.New)
 	g.POST("/play", s.Play)
 	g.GET("/category/:name", s.Category)
 	g.POST("/category", s.Assign)
+	g.POST("/like", s.Like)
 }

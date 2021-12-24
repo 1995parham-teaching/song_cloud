@@ -17,3 +17,8 @@ type AssignSong struct {
 	ID       int `json:"id"`
 	Category int `json:"category"`
 }
+
+type Like struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+}

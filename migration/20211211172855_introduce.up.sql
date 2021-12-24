@@ -9,8 +9,7 @@ CREATE TABLE IF NOT EXISTS introduce
 CREATE OR REPLACE FUNCTION increase_score() RETURNS trigger as
 $$
   BEGIN
-    UPDATE users SET score = score + 1 WHERE username = NEW.introducer;
-
+    UPDATE wallet SET credit = credit + 50 WHERE username = NEW.introducer;
     RETURN NEW;
   END;
 $$

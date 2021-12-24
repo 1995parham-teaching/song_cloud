@@ -33,3 +33,9 @@ Create new paid song:
 ```sh
 curl -d '{ "new": "elahe-p", "file": "elahe.mp3", "production_year": 2021, "explanation": "new awesome song", "price": 100 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/song
 ```
+
+Play a song:
+
+```sh
+curl -d '{ "id": 2, "username": "elahe" }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/play
+```

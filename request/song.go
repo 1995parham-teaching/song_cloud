@@ -12,3 +12,8 @@ type PlaySong struct {
 	ID       int    `json:"id"`
 	Username string `json:"username"`
 }
+
+type AssignSong struct {
+	ID       int `json:"id"`
+	Category int `json:"category"`
+}

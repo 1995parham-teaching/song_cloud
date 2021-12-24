@@ -34,13 +34,16 @@ $$
   BEGIN
     IF free(id_in) THEN
       CALL increase_view(id_in);
+      RETURN;
     END IF;
     IF premium_user_validation(username_in) THEN
       CALL increase_view(id_in);
+      RETURN;
     END IF;
-    IF isPaid(username_in, id_in) THEN  
+    IF isPaid(username_in, id_in) THEN
       CALL increase_view(id_in);
     END IF;
+    RAISE EXCEPTION 'user % cannot play %', username_in, id_in;
   END;
 $$
 LANGUAGE plpgsql;

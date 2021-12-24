@@ -20,3 +20,7 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
+create role crm login password 'crm';
+grant select on users to crm;
+grant update on users to crm;

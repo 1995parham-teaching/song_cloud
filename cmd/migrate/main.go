@@ -1,11 +1,11 @@
 package migrate
 
+// nolint: revive
 import (
 	"errors"
 
 	"github.com/cng-by-example/song_cloud/config"
 	"github.com/cng-by-example/song_cloud/db"
-
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -20,7 +20,7 @@ func main(cfg config.Config) {
 		log.Fatal("database initiation failed", err)
 	}
 
-	driver, err := postgres.WithInstance(database, &postgres.Config{})
+	driver, err := postgres.WithInstance(database, nil)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}

@@ -6,8 +6,6 @@ import (
 	"log"
 
 	"github.com/cng-by-example/song_cloud/config"
-
-	_ "github.com/lib/pq"
 )
 
 // New creates a new postgres connection and tests it.

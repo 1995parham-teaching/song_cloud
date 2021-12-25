@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/elahe-dastan/song_cloud/config"
+	"github.com/cng-by-example/song_cloud/config"
 
 	_ "github.com/lib/pq"
 )

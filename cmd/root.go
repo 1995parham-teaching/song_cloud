@@ -5,9 +5,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/elahe-dastan/song_cloud/cmd/migrate"
-	"github.com/elahe-dastan/song_cloud/cmd/server"
-	"github.com/elahe-dastan/song_cloud/config"
+	"github.com/cng-by-example/song_cloud/cmd/migrate"
+	"github.com/cng-by-example/song_cloud/cmd/server"
+	"github.com/cng-by-example/song_cloud/config"
 )
 
 // ExitFailure status code.
@@ -20,8 +20,8 @@ func Execute() {
 
 	// nolint: exhaustivestruct
 	root := &cobra.Command{
-		Use:   "github.com/elahe-dastan/song_cloud",
-		Short: "github.com/elahe-dastan/song_cloud",
+		Use:   "github.com/cng-by-example/song_cloud",
+		Short: "github.com/cng-by-example/song_cloud",
 	}
 
 	server.Register(root, cfg)

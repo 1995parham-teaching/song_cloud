@@ -3,8 +3,8 @@ package migrate
 import (
 	"errors"
 
-	"github.com/elahe-dastan/song_cloud/config"
-	"github.com/elahe-dastan/song_cloud/db"
+	"github.com/cng-by-example/song_cloud/config"
+	"github.com/cng-by-example/song_cloud/db"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"

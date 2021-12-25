@@ -3,11 +3,10 @@ package cmd
 import (
 	"os"
 
-	"github.com/spf13/cobra"
-
 	"github.com/cng-by-example/song_cloud/cmd/migrate"
 	"github.com/cng-by-example/song_cloud/cmd/server"
 	"github.com/cng-by-example/song_cloud/config"
+	"github.com/spf13/cobra"
 )
 
 // ExitFailure status code.

@@ -50,7 +50,7 @@ func (w *Wallet) Update(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-// nolint: wrapcheck
+// nolint: wrapcheck, funlen, cyclop
 func (w *Wallet) Transfer(c echo.Context) error {
 	ctx := c.Request().Context()
 

@@ -13,6 +13,7 @@ type Wallet struct {
 	Store *sql.DB
 }
 
+// nolint: wrapcheck
 func (w *Wallet) Update(c echo.Context) error {
 	ctx := c.Request().Context()
 
@@ -49,6 +50,7 @@ func (w *Wallet) Update(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
+// nolint: wrapcheck
 func (w *Wallet) Transfer(c echo.Context) error {
 	ctx := c.Request().Context()
 

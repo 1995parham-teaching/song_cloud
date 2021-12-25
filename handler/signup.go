@@ -17,6 +17,7 @@ type SignUp struct {
 	Store *sql.DB
 }
 
+// nolint: wrapcheck
 func (s *SignUp) Create(c echo.Context) error {
 	ctx := c.Request().Context()
 
@@ -73,6 +74,7 @@ func (s *SignUp) Create(c echo.Context) error {
 		stmt, err := s.Store.PrepareContext(ctx, "INSERT INTO introduce (username, introducer) VALUES ($1, $2)")
 		if err != nil {
 			log.Printf("stmt preparation failed %s", err)
+
 			_ = tx.Rollback()
 
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -81,6 +83,7 @@ func (s *SignUp) Create(c echo.Context) error {
 
 		if _, err := stmt.ExecContext(ctx, rq.Username, *rq.Introducer); err != nil {
 			log.Printf("stmt exec failed %s", err)
+
 			_ = tx.Rollback()
 
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -129,6 +132,7 @@ func (s *SignUp) Retrieve(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
+// nolint: wrapcheck
 func (s *SignUp) Update(c echo.Context) error {
 	var rq request.Signup
 	if err := c.Bind(&rq); err != nil {

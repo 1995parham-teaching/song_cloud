@@ -16,6 +16,7 @@ type Premium struct {
 
 const HoursInDay = 24
 
+// nolint: wrapcheck
 func (p Premium) Extend(c echo.Context) error {
 	ctx := c.Request().Context()
 

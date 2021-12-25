@@ -1,4 +1,4 @@
-module github.com/elahe-dastan/song_cloud
+module github.com/cng-by-example/song_cloud
 
 go 1.17
 

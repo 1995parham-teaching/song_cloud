@@ -66,6 +66,6 @@ $$
 LANGUAGE plpgsql;
 
 create role content login password 'content';
-grant select on song to crm;
-grant update on song to crm;
-grant delete on song to crm;
+grant select on song to content;
+grant update on song to content;
+grant delete on song to content;

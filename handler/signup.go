@@ -17,7 +17,7 @@ type SignUp struct {
 	Store *sql.DB
 }
 
-// nolint: wrapcheck
+// nolint: wrapcheck, cyclop, funlen
 func (s *SignUp) Create(c echo.Context) error {
 	ctx := c.Request().Context()
 

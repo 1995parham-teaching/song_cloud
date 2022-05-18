@@ -55,7 +55,7 @@ func main(cfg config.Config) {
 // Register server command.
 func Register(root *cobra.Command, cfg config.Config) {
 	root.AddCommand(
-		// nolint: exhaustivestruct
+		// nolint: exhaustruct
 		&cobra.Command{
 			Use:   "serve",
 			Short: "Run server to serve the requests",

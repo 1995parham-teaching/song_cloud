@@ -17,7 +17,7 @@ const ExitFailure = 1
 func Execute() {
 	cfg := config.Read()
 
-	// nolint: exhaustivestruct
+	// nolint: exhaustruct
 	root := &cobra.Command{
 		Use:   "github.com/cng-by-example/song_cloud",
 		Short: "github.com/cng-by-example/song_cloud",

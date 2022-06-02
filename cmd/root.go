@@ -19,8 +19,8 @@ func Execute() {
 
 	// nolint: exhaustruct
 	root := &cobra.Command{
-		Use:   "github.com/cng-by-example/song_cloud",
-		Short: "github.com/cng-by-example/song_cloud",
+		Use:   "song cloud",
+		Short: "song cloud",
 	}
 
 	server.Register(root, cfg)

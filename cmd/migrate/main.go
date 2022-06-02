@@ -20,7 +20,8 @@ func main(cfg config.Config) {
 		log.Fatal("database initiation failed", err)
 	}
 
-	driver, err := postgres.WithInstance(database, nil)
+	// nolint: exhaustruct
+	driver, err := postgres.WithInstance(database, &postgres.Config{})
 	if err != nil {
 		log.Fatalf(err.Error())
 	}

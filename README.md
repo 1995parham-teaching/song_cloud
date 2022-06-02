@@ -1,12 +1,12 @@
-# Song Cloud
+# Song Cloud 🎶
 
 ## Introduction
 
-Minimal sound cloud just for having fun with SQL-based databases.
-Users can have free or premium accounts. They can listen to musics and we track they playlist.
+Minimal sound cloud, written by Elahe Dastan just for having fun with SQL-based databases.
+Users can have free or premium accounts. They can listen to musics, and we track they playlist.
 Musics have categories which are predefined. Users can buy musics or like them.
 
-This project is soley written for demostration and it has many performance issues and pitfalls.
+This project is solely written for demonstration, and it has many performance issues.
 
 ## Requests
 

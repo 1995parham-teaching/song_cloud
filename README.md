@@ -2,7 +2,11 @@
 
 ## Introduction
 
-minimal sound cloud just for having fun with databases
+Minimal sound cloud just for having fun with SQL-based databases.
+Users can have free or premium accounts. They can listen to musics and we track they playlist.
+Musics have categories which are predefined. Users can buy musics or like them.
+
+This project is soley written for demostration and it has many performance issues and pitfalls.
 
 ## Requests
 
@@ -66,7 +70,7 @@ like a song:
 curl -d '{ "username": "elahe", "id": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/like
 ```
 
-## Reporting
+## Reports
 
 Sum of the users transactions:
 

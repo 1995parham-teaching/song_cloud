@@ -3,9 +3,9 @@ package cmd
 import (
 	"os"
 
-	"github.com/cng-by-example/song_cloud/cmd/migrate"
-	"github.com/cng-by-example/song_cloud/cmd/server"
-	"github.com/cng-by-example/song_cloud/config"
+	"github.com/1995parham-teaching/song_cloud/cmd/migrate"
+	"github.com/1995parham-teaching/song_cloud/cmd/server"
+	"github.com/1995parham-teaching/song_cloud/config"
 	"github.com/spf13/cobra"
 )
 

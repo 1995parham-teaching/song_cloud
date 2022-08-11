@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/cng-by-example/song_cloud/config"
+	"github.com/1995parham-teaching/song_cloud/config"
 )
 
 // New creates a new postgres connection and tests it.

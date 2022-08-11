@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/cng-by-example/song_cloud/request"
-	"github.com/cng-by-example/song_cloud/response"
+	"github.com/1995parham-teaching/song_cloud/request"
+	"github.com/1995parham-teaching/song_cloud/response"
 	"github.com/labstack/echo/v4"
 )
 

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/cng-by-example/song_cloud/cmd"
+import "github.com/1995parham-teaching/song_cloud/cmd"
 
 func main() {
 	cmd.Execute()

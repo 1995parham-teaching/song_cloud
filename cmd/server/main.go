@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cng-by-example/song_cloud/config"
-	"github.com/cng-by-example/song_cloud/db"
-	"github.com/cng-by-example/song_cloud/handler"
+	"github.com/1995parham-teaching/song_cloud/config"
+	"github.com/1995parham-teaching/song_cloud/db"
+	"github.com/1995parham-teaching/song_cloud/handler"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/cobra"

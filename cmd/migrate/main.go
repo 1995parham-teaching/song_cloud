@@ -1,6 +1,5 @@
 package migrate
 
-// nolint: revive
 import (
 	"errors"
 
@@ -8,9 +7,9 @@ import (
 	"github.com/1995parham-teaching/song_cloud/db"
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/golang-migrate/migrate/v4/source/file" // supports migration with files.
 	"github.com/labstack/gommon/log"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // loads postgresql driver.
 	"github.com/spf13/cobra"
 )
 

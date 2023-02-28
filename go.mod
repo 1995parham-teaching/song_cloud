@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.15.2
-	github.com/labstack/echo/v4 v4.10.1
+	github.com/labstack/echo/v4 v4.10.2
 	github.com/labstack/gommon v0.4.0
 	github.com/lib/pq v1.10.7
 	github.com/spf13/cobra v1.6.1

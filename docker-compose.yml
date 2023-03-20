@@ -1,7 +1,6 @@
 ---
 services:
   database:
-    # use latest official postgres version
     image: "postgres"
     environment:
       POSTGRES_USER: song

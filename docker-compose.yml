@@ -12,7 +12,16 @@ services:
       - 5432:5432
     healthcheck:
       # https://github.com/peter-evans/docker-compose-healthcheck/issues/16
-      test: ["CMD", "pg_isready", "q", "-U", "song", "-d", "song"]
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "q",
+          "-U",
+          "song",
+          "-d",
+          "song"
+        ]
       interval: 10s
       timeout: 5s
       retries: 5

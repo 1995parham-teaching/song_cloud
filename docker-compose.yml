@@ -14,13 +14,8 @@ services:
       # https://github.com/peter-evans/docker-compose-healthcheck/issues/16
       test:
         [
-          "CMD",
+          "CMD-SHELL",
           "pg_isready",
-          "q",
-          "-U",
-          "song",
-          "-d",
-          "song"
         ]
       interval: 10s
       timeout: 5s

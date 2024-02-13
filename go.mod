@@ -1,6 +1,6 @@
 module github.com/1995parham-teaching/song_cloud
 
-go 1.19
+go 1.21
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.17.0

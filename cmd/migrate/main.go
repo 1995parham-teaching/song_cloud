@@ -50,7 +50,7 @@ func Register(root *cobra.Command, cfg config.Config) {
 		&cobra.Command{
 			Use:   "migrate",
 			Short: "database migration",
-			Run: func(cmd *cobra.Command, args []string) {
+			Run: func(_ *cobra.Command, _ []string) {
 				main(cfg)
 			},
 		},

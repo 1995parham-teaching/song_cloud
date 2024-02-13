@@ -38,6 +38,7 @@ func (s *SignUp) Create(c echo.Context) error {
 		)
 		if err != nil {
 			log.Printf("stmt preparation failed %s", err)
+
 			_ = tx.Rollback()
 
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -46,6 +47,7 @@ func (s *SignUp) Create(c echo.Context) error {
 
 		if _, err := stmt.ExecContext(ctx, rq.Username, rq.Password, rq.FirstName, rq.LastName, rq.Email); err != nil {
 			log.Printf("stmt exec failed %s", err)
+
 			_ = tx.Rollback()
 
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -56,6 +58,7 @@ func (s *SignUp) Create(c echo.Context) error {
 		stmt, err := s.Store.PrepareContext(ctx, "INSERT INTO wallet (username) VALUES ($1)")
 		if err != nil {
 			log.Printf("stmt preparation failed %s", err)
+
 			_ = tx.Rollback()
 
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -64,6 +67,7 @@ func (s *SignUp) Create(c echo.Context) error {
 
 		if _, err := stmt.ExecContext(ctx, rq.Username); err != nil {
 			log.Printf("stmt exec failed %s", err)
+
 			_ = tx.Rollback()
 
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())

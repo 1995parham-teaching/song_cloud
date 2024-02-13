@@ -71,6 +71,7 @@ func (w *Wallet) Transfer(c echo.Context) error {
 		)
 		if err != nil {
 			log.Printf("stmt preparation failed %s", err)
+
 			_ = tx.Rollback()
 
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -105,6 +106,7 @@ func (w *Wallet) Transfer(c echo.Context) error {
 		)
 		if err != nil {
 			log.Printf("stmt preparation failed %s", err)
+
 			_ = tx.Rollback()
 
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())

@@ -59,7 +59,7 @@ func Register(root *cobra.Command, cfg config.Config) {
 		&cobra.Command{
 			Use:   "serve",
 			Short: "Run server to serve the requests",
-			Run: func(cmd *cobra.Command, args []string) {
+			Run: func(_ *cobra.Command, _ []string) {
 				main(cfg)
 			},
 		},

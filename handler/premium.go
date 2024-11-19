@@ -46,6 +46,6 @@ func (p Premium) Extend(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-func (p *Premium) Register(g *echo.Group) {
+func (p Premium) Register(g *echo.Group) {
 	g.POST("/extend", p.Extend)
 }

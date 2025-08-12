@@ -26,7 +26,7 @@ func (s *SignUp) Create(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	tx, err := s.Store.Begin()
+	tx, err := s.Store.BeginTx(ctx, nil)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
@@ -138,6 +138,8 @@ func (s *SignUp) Retrieve(c echo.Context) error {
 
 // nolint: wrapcheck
 func (s *SignUp) Update(c echo.Context) error {
+	ctx := c.Request().Context()
+
 	var rq request.Signup
 	if err := c.Bind(&rq); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -171,7 +173,7 @@ func (s *SignUp) Update(c echo.Context) error {
 
 	query += fmt.Sprintf(" WHERE username = '%s'", rq.Username)
 
-	if _, err := s.Store.Exec(query); err != nil {
+	if _, err := s.Store.ExecContext(ctx, query); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 

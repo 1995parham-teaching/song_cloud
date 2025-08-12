@@ -59,7 +59,7 @@ func (w *Wallet) Transfer(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	tx, err := w.Store.Begin()
+	tx, err := w.Store.BeginTx(ctx, nil)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}

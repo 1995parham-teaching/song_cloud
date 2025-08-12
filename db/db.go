@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
@@ -19,7 +20,7 @@ func New(cfg config.Database) (*sql.DB, error) {
 		panic(err)
 	}
 
-	if err = db.Ping(); err != nil {
+	if err = db.PingContext(context.Background()); err != nil {
 		panic(err)
 	}
 

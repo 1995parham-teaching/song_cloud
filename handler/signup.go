@@ -17,8 +17,7 @@ type SignUp struct {
 	Store *sql.DB
 }
 
-// nolint: wrapcheck, cyclop, funlen
-func (s *SignUp) Create(c echo.Context) error {
+func (s *SignUp) Create(c echo.Context) error { // nolint: cyclop, funlen
 	ctx := c.Request().Context()
 
 	var rq request.Signup
@@ -113,6 +112,7 @@ func (s *SignUp) Retrieve(c echo.Context) error {
 
 	var user response.User
 
+	// nolint: unqueryvet
 	stmt, err := s.Store.PrepareContext(ctx, "SELECT * FROM users WHERE username = $1 AND password = $2")
 	if err != nil {
 		log.Printf("stmt preparation failed %s", err)
@@ -136,7 +136,6 @@ func (s *SignUp) Retrieve(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-// nolint: wrapcheck
 func (s *SignUp) Update(c echo.Context) error {
 	ctx := c.Request().Context()
 
@@ -165,9 +164,12 @@ func (s *SignUp) Update(c echo.Context) error {
 		columns["email"] = rq.Email
 	}
 
+	var querySb168 strings.Builder
 	for k, v := range columns {
-		query += k + " = '" + v + "', "
+		querySb168.WriteString(k + " = '" + v + "', ")
 	}
+
+	query += querySb168.String()
 
 	query = strings.Trim(query, ", ")
 

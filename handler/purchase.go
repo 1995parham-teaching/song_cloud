@@ -13,7 +13,6 @@ type Purchase struct {
 	Store *sql.DB
 }
 
-// nolint: wrapcheck
 func (p Purchase) Buy(c echo.Context) error {
 	ctx := c.Request().Context()
 

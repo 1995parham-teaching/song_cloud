@@ -22,14 +22,14 @@ func main(cfg config.Config) {
 	// nolint: exhaustruct
 	driver, err := postgres.WithInstance(database, &postgres.Config{})
 	if err != nil {
-		log.Fatalf(err.Error())
+		log.Fatalf("%s", err.Error())
 	}
 
 	m, err := migrate.NewWithDatabaseInstance(
 		"file://./migration",
 		"postgres", driver)
 	if err != nil {
-		log.Fatalf(err.Error())
+		log.Fatalf("%s", err.Error())
 	}
 
 	if err := m.Up(); err != nil {
@@ -39,7 +39,7 @@ func main(cfg config.Config) {
 			return
 		}
 
-		log.Fatalf(err.Error())
+		log.Fatalf("%s", err.Error())
 	}
 }
 

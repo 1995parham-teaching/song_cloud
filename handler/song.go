@@ -13,7 +13,6 @@ type Song struct {
 	Store *sql.DB
 }
 
-// nolint: wrapcheck
 func (s Song) Play(c echo.Context) error {
 	ctx := c.Request().Context()
 
@@ -42,7 +41,6 @@ func (s Song) Play(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
-// nolint: wrapcheck
 func (s Song) New(c echo.Context) error {
 	ctx := c.Request().Context()
 
@@ -71,7 +69,6 @@ func (s Song) New(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
-// nolint: wrapcheck
 func (s Song) Category(c echo.Context) error {
 	ctx := c.Request().Context()
 
@@ -97,7 +94,6 @@ func (s Song) Category(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
-// nolint: wrapcheck
 func (s Song) Assign(c echo.Context) error {
 	ctx := c.Request().Context()
 
@@ -126,7 +122,6 @@ func (s Song) Assign(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
-// nolint: wrapcheck
 func (s Song) Like(c echo.Context) error {
 	ctx := c.Request().Context()
 

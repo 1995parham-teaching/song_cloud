@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.19.1
-	github.com/labstack/echo/v4 v4.14.0
+	github.com/labstack/echo/v4 v4.15.0
 	github.com/labstack/gommon v0.4.2
 	github.com/lib/pq v1.10.9
 	github.com/spf13/cobra v1.10.2

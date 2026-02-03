@@ -123,7 +123,7 @@ func (s *SignUp) Retrieve(c echo.Context) error {
 
 	if err := stmt.QueryRowContext(ctx, rq.Username, rq.Password).Scan(
 		&user.Username, &user.Password, &user.FirstName, &user.LastName,
-		&user.Email, &user.SpecialTill, &user.Score); err != nil {
+		&user.Email, &user.SpecialTill); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return echo.ErrUnauthorized
 		}

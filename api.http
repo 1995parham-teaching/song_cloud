@@ -1,0 +1,159 @@
+### 
+
+@baseUrl = http://127.0.0.1:8080/api
+
+
+### Sign up a new user
+
+# @name signup
+
+POST {{baseUrl}}/signup HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "parham@example.com",
+  "first_name": "Parham",
+  "last_name": "Alvani",
+  "password": "P@ssw0rd",
+  "username": "parham"
+}
+
+
+### Sign up with introducer
+
+POST {{baseUrl}}/signup HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "first_name": "John",
+  "introducer": "parham",
+  "last_name": "Doe",
+  "password": "P@ssw0rd",
+  "username": "john"
+}
+
+
+### Login
+
+# @name login
+
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "password": "P@ssw0rd",
+  "username": "parham"
+}
+
+
+### Edit user profile
+
+POST {{baseUrl}}/edit HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "newemail@example.com",
+  "first_name": "Parham",
+  "last_name": "Alvani",
+  "username": "parham"
+}
+
+
+### Add credit to wallet
+
+POST {{baseUrl}}/wallet HTTP/1.1
+Content-Type: application/json
+
+{
+  "credit": 1000,
+  "username": "parham"
+}
+
+
+### Transfer credit between users
+
+POST {{baseUrl}}/transfer HTTP/1.1
+Content-Type: application/json
+
+{
+  "credit": 100,
+  "end_user": "john",
+  "username": "parham"
+}
+
+
+### Create a new song
+
+# @name newSong
+
+POST {{baseUrl}}/song HTTP/1.1
+Content-Type: application/json
+
+{
+  "explanation": "A song by Queen",
+  "file": "/songs/bohemian-rhapsody.mp3",
+  "name": "Bohemian Rhapsody",
+  "price": 50,
+  "production_year": 1975
+}
+
+
+### Play a song
+
+POST {{baseUrl}}/play HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "username": "parham"
+}
+
+
+### Create a category
+
+GET {{baseUrl}}/category/rock HTTP/1.1
+
+
+### Assign category to song
+
+POST {{baseUrl}}/category HTTP/1.1
+Content-Type: application/json
+
+{
+  "category": 1,
+  "id": 1
+}
+
+
+### Like a song
+
+POST {{baseUrl}}/like HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "username": "parham"
+}
+
+
+### Extend premium subscription (duration in days)
+
+POST {{baseUrl}}/extend HTTP/1.1
+Content-Type: application/json
+
+{
+  "duration": 30,
+  "username": "parham"
+}
+
+
+### Buy a song
+
+POST {{baseUrl}}/buy HTTP/1.1
+Content-Type: application/json
+
+{
+  "song": 1,
+  "username": "parham"
+}

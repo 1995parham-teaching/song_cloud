@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/1995parham-teaching/song_cloud/db"
 	"github.com/1995parham-teaching/song_cloud/request"
 	"github.com/labstack/echo/v4"
 )
@@ -35,7 +36,7 @@ func (s Song) Play(c echo.Context) error {
 	if _, err := stmt.ExecContext(ctx, rq.ID, rq.Username); err != nil {
 		log.Printf("stmt exec failed %s", err)
 
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return db.HandleError(err)
 	}
 
 	return c.NoContent(http.StatusNoContent)
@@ -63,7 +64,7 @@ func (s Song) New(c echo.Context) error {
 	if _, err := stmt.ExecContext(ctx, rq.Name, rq.File, rq.ProductionYear, rq.Explanation, rq.Price); err != nil {
 		log.Printf("stmt exec failed %s", err)
 
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return db.HandleError(err)
 	}
 
 	return c.NoContent(http.StatusNoContent)
@@ -88,7 +89,7 @@ func (s Song) Category(c echo.Context) error {
 	if _, err := stmt.ExecContext(ctx, name); err != nil {
 		log.Printf("stmt exec failed %s", err)
 
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return db.HandleError(err)
 	}
 
 	return c.NoContent(http.StatusNoContent)
@@ -116,7 +117,7 @@ func (s Song) Assign(c echo.Context) error {
 	if _, err := stmt.ExecContext(ctx, rq.ID, rq.Category); err != nil {
 		log.Printf("stmt exec failed %s", err)
 
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return db.HandleError(err)
 	}
 
 	return c.NoContent(http.StatusNoContent)
@@ -144,7 +145,7 @@ func (s Song) Like(c echo.Context) error {
 	if _, err := stmt.ExecContext(ctx, rq.Username, rq.ID); err != nil {
 		log.Printf("stmt exec failed %s", err)
 
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return db.HandleError(err)
 	}
 
 	return c.NoContent(http.StatusNoContent)

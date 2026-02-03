@@ -7,6 +7,7 @@ import (
 	"log"
 
 	"github.com/1995parham-teaching/song_cloud/config"
+	_ "github.com/jackc/pgx/v5/stdlib" // PostgreSQL driver
 )
 
 // New creates a new postgres connection and tests it.
@@ -15,7 +16,7 @@ func New(cfg config.Database) (*sql.DB, error) {
 		"password=%s dbname=%s sslmode=disable",
 		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName)
 
-	db, err := sql.Open("postgres", url)
+	db, err := sql.Open("pgx", url)
 	if err != nil {
 		panic(err)
 	}

@@ -9,7 +9,6 @@ import (
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file" // supports migration with files.
 	"github.com/labstack/gommon/log"
-	_ "github.com/lib/pq" // loads postgresql driver.
 	"github.com/spf13/cobra"
 )
 

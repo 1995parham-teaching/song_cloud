@@ -14,3 +14,4 @@ linters:
     - wrapcheck
     - errcheck
     - noinlineerr
+    - gosec

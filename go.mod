@@ -4,7 +4,7 @@ go 1.26
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.19.1
-	github.com/jackc/pgx/v5 v5.9.1
+	github.com/jackc/pgx/v5 v5.9.2
 	github.com/labstack/echo/v4 v4.15.1
 	github.com/labstack/gommon v0.4.2
 	github.com/spf13/cobra v1.10.2

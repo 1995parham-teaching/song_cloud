@@ -3,6 +3,9 @@ version: "2"
 linters:
   default: all
   disable:
+    # deprecated aliases, `default: all` already enables their successors
+    # (exhaustruct_v5, gomodguard_v2, wsl_v5).
+    - exhaustruct
     - gomodguard
     - wsl
     - depguard

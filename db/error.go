@@ -19,8 +19,7 @@ type PgError struct {
 
 // HandleError converts a database error to an appropriate HTTP error with details.
 func HandleError(err error) *echo.HTTPError {
-	var pgErr *pgconn.PgError
-	if errors.As(err, &pgErr) {
+	if pgErr, ok := errors.AsType[*pgconn.PgError](err); ok {
 		status := http.StatusInternalServerError
 
 		// Map PostgreSQL error classes to HTTP status codes

@@ -18,7 +18,7 @@ func main(cfg config.Config) {
 		log.Fatal("database initiation failed", err)
 	}
 
-	// nolint: exhaustruct
+	// nolint: exhaustruct_v5
 	driver, err := postgres.WithInstance(database, &postgres.Config{})
 	if err != nil {
 		log.Fatalf("%s", err.Error())
@@ -45,7 +45,7 @@ func main(cfg config.Config) {
 // Register migrate command.
 func Register(root *cobra.Command, cfg config.Config) {
 	root.AddCommand(
-		// nolint: exhaustruct
+		// nolint: exhaustruct_v5
 		&cobra.Command{
 			Use:   "migrate",
 			Short: "database migration",

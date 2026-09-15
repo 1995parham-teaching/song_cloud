@@ -17,7 +17,7 @@ const ExitFailure = 1
 func Execute() {
 	cfg := config.Read()
 
-	// nolint: exhaustruct
+	// nolint: exhaustruct_v5
 	root := &cobra.Command{
 		Use:   "song cloud",
 		Short: "song cloud",

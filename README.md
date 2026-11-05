@@ -70,6 +70,61 @@ like a song:
 curl -d '{ "username": "elahe", "id": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/like
 ```
 
+## Playlists
+
+Users can create playlists, add songs to them or remove songs from them, and share them with other users.
+Only the owner can change or share a playlist, and users it is shared with can only read it.
+
+| Method   | Path                                           | Description                                       |
+| -------- | ---------------------------------------------- | ------------------------------------------------- |
+| `POST`   | `/api/playlist`                                | create a playlist                                 |
+| `GET`    | `/api/playlist?username=<user>`                | list the owned and the shared playlists of a user |
+| `GET`    | `/api/playlist/<id>?username=<user>`           | get a playlist with its songs                     |
+| `POST`   | `/api/playlist/<id>/song`                      | add a song to a playlist                          |
+| `DELETE` | `/api/playlist/<id>/song/<song>?username=<user>` | remove a song from a playlist                   |
+| `POST`   | `/api/playlist/<id>/share`                     | share a playlist with another user                |
+
+Create a playlist:
+
+```bash
+curl -d '{ "username": "elahe", "name": "road trip" }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/playlist
+```
+
+Add a song to it:
+
+```bash
+curl -d '{ "username": "elahe", "song": 1 }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/playlist/1/song
+```
+
+Remove a song from it:
+
+```bash
+curl -X DELETE '127.0.0.1:8080/api/playlist/1/song/1?username=elahe'
+```
+
+Share it with another user:
+
+```bash
+curl -d '{ "username": "elahe", "with": "foo" }' -H 'Content-Type: application/json' 127.0.0.1:8080/api/playlist/1/share
+```
+
+Get it as the user it is shared with:
+
+```bash
+curl '127.0.0.1:8080/api/playlist/1?username=foo'
+```
+
+## Tests
+
+Handler tests run without a database. Store tests need a migrated database,
+they are skipped when it is not reachable (and fail on CI):
+
+```bash
+just dev up
+just migrate
+go test ./...
+```
+
 ## Reports
 
 Sum of the users transactions:

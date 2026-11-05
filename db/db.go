@@ -12,17 +12,18 @@ import (
 
 // New creates a new postgres connection and tests it.
 func New(cfg config.Database) (*sql.DB, error) {
-	url := fmt.Sprintf("host=%s port=%s user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName)
+	url := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName, cfg.SSLmode)
 
 	db, err := sql.Open("pgx", url)
 	if err != nil {
-		panic(err)
+		return nil, fmt.Errorf("open database: %w", err)
 	}
 
-	if err = db.PingContext(context.Background()); err != nil {
-		panic(err)
+	if err := db.PingContext(context.Background()); err != nil {
+		_ = db.Close()
+
+		return nil, fmt.Errorf("ping database: %w", err)
 	}
 
 	log.Println("Successfully connected!")

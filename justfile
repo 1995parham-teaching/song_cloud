@@ -29,6 +29,10 @@ database: (dev "up") (dev "exec" "database psql -U song")
 migrate: (dev "up")
     go run main.go migrate
 
+# run tests (store tests need a migrated database, see `just migrate`)
+test:
+    go test -race ./...
+
 # run golangci-lint
 lint:
     golangci-lint run -c .golangci.yml

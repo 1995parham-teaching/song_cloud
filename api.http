@@ -157,3 +157,53 @@ Content-Type: application/json
   "song": 1,
   "username": "parham"
 }
+
+
+### Create a playlist
+
+# @name newPlaylist
+
+POST {{baseUrl}}/playlist HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Road Trip",
+  "username": "parham"
+}
+
+
+### List playlists the user owns or that are shared with them
+
+GET {{baseUrl}}/playlist?username=parham HTTP/1.1
+
+
+### Get a playlist with its songs (owner or shared users only)
+
+GET {{baseUrl}}/playlist/1?username=parham HTTP/1.1
+
+
+### Add a song to a playlist (owner only)
+
+POST {{baseUrl}}/playlist/1/song HTTP/1.1
+Content-Type: application/json
+
+{
+  "song": 1,
+  "username": "parham"
+}
+
+
+### Remove a song from a playlist (owner only)
+
+DELETE {{baseUrl}}/playlist/1/song/1?username=parham HTTP/1.1
+
+
+### Share a playlist with another user (owner only, read-only access)
+
+POST {{baseUrl}}/playlist/1/share HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "parham",
+  "with": "john"
+}

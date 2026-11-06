@@ -8,6 +8,7 @@ import (
 	"github.com/1995parham-teaching/song_cloud/config"
 	"github.com/1995parham-teaching/song_cloud/db"
 	"github.com/1995parham-teaching/song_cloud/handler"
+	"github.com/1995parham-teaching/song_cloud/store"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/cobra"
@@ -46,6 +47,11 @@ func main(cfg config.Config) {
 		Store: database,
 	}
 	purchase.Register(app.Group("/api"))
+
+	playlist := handler.Playlist{
+		Store: store.Playlist{DB: database},
+	}
+	playlist.Register(app.Group("/api"))
 
 	if err = app.Start(":8080"); !errors.Is(err, http.ErrServerClosed) {
 		log.Fatal("echo initiation failed", err)
